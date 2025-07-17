@@ -1,14 +1,17 @@
+"""Main entry point for the Asteroids game."""
+
 import pygame
-from constants import *
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
 
 
 def main():
+    """Main function to run the Asteroids game."""
     pygame.init()
-    print("Starting Asteroids!")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     running = True
+
+    dt = 0
+    clock = pygame.time.Clock()
 
     while running:
         for event in pygame.event.get():
@@ -17,6 +20,9 @@ def main():
                 return
             screen.fill("black")
             pygame.display.flip()
+
+        dt = clock.tick(FPS) / 1000
+        pygame.display.set_caption(f"Asteroids - FPS: {clock.get_fps():.2f}")
 
 
 if __name__ == "__main__":
