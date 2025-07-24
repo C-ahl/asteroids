@@ -1,7 +1,8 @@
 """Main entry point for the Asteroids game."""
 
 import pygame
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, PLAYER_RADIUS
+from player import Player
 
 
 def main():
@@ -9,6 +10,8 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     running = True
+
+    player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
     dt = 0
     clock = pygame.time.Clock()
@@ -18,8 +21,9 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
                 return
-            screen.fill("black")
-            pygame.display.flip()
+        screen.fill("black")
+        player.draw(screen)
+        pygame.display.flip()
 
         dt = clock.tick(FPS) / 1000
         pygame.display.set_caption(f"Asteroids - FPS: {clock.get_fps():.2f}")
