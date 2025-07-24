@@ -1,7 +1,7 @@
 """Player class for Asteroids."""
 
 import pygame
-from constants import PLAYER_RADIUS
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED
 from circleshape import CircleShape
 
 
@@ -24,3 +24,29 @@ class Player(CircleShape):
     def draw(self, screen):
         """Update the player's position and rotation."""
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
+
+    def rotate(self, dt):
+        """Rotate the player based on the turn speed."""
+        self.rotation += dt * PLAYER_TURN_SPEED
+
+    def update(self, dt):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_a]:
+            # Rotate left
+            self.rotate(-dt)
+        if keys[pygame.K_d]:
+            # Rotate right
+            self.rotate(dt)
+
+        if keys[pygame.K_w]:
+            # Move forward
+            self.move(dt)
+        if keys[pygame.K_s]:
+            # Move backward
+            self.move(-dt)
+
+    def move(self, dt):
+        """Move the player in the direction it is facing."""
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        self.position += forward * PLAYER_SPEED * dt
